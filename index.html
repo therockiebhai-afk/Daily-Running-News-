@@ -1,54 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Daily News India</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 
-  <!-- Google AdSense -->
+  <!-- Google AdSense (publisher script) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8891230579666870"
-       crossorigin="anonymous"></script>
+     crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <h1>📰 Daily News India</h1>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="privacy.html">Privacy</a>
+  <!-- Sticky Header -->
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <a href="index.html" class="logo">Daily <span>News</span> India</a>
+      </div>
+
+      <nav class="main-nav" aria-label="Main Navigation">
+        <button id="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+        <ul id="nav-list">
+          <li><a href="#" data-cat="" class="nav-link active">Top</a></li>
+          <li><a href="#" data-cat="politics" class="nav-link">Politics</a></li>
+          <li><a href="#" data-cat="business" class="nav-link">Business</a></li>
+          <li><a href="#" data-cat="technology" class="nav-link">Tech</a></li>
+          <li><a href="#" data-cat="sports" class="nav-link">Sports</a></li>
+          <li><a href="#" data-cat="entertainment" class="nav-link">Entertainment</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+        </ul>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="hero">
-    <h2>Stay Updated with Latest News</h2>
-    <p>Get the fastest updates from India and across the world.</p>
+    <div class="wrap hero-inner">
+      <div class="hero-left">
+        <h1>Fast. Reliable. India-First News.</h1>
+        <p class="tagline">Breaking stories, politics, business, tech, sports and more — updated every hour.</p>
+      </div>
+
+      <div class="hero-right">
+        <!-- marquee-style breaking headlines (filled by JS) -->
+        <div class="breaking-box">
+          <strong>Breaking:</strong>
+          <div id="breaking" class="breaking-marquee">Loading headlines…</div>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <!-- Google AdSense Ad -->
-  <div class="ads-container">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-8891230579666870"
-         data-ad-slot="6919295084"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
+  <!-- Main area: content + sidebar -->
+  <main class="wrap main-grid">
+    <!-- LEFT: news list -->
+    <section class="content" aria-live="polite">
+      <div class="ads-top">
+        <!-- Ad slot below hero -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8891230579666870"
+             data-ad-slot="6919295084"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
 
-  <!-- News Section -->
-  <main class="news-container" id="news"></main>
+      <div id="news-list" class="news-list">
+        <!-- News cards injected here -->
+      </div>
+
+      <div class="load-more-wrap">
+        <button id="load-more" class="btn">Load more</button>
+      </div>
+    </section>
+
+    <!-- RIGHT: sidebar -->
+    <aside class="sidebar">
+      <div class="card sidebar-card">
+        <h3>Popular Topics</h3>
+        <ul class="chip-list">
+          <li><button data-cat="politics" class="chip">Politics</button></li>
+          <li><button data-cat="business" class="chip">Business</button></li>
+          <li><button data-cat="technology" class="chip">Tech</button></li>
+          <li><button data-cat="sports" class="chip">Sports</button></li>
+          <li><button data-cat="entertainment" class="chip">Entertainment</button></li>
+        </ul>
+      </div>
+
+      <div class="card sidebar-card">
+        <h3>Subscribe</h3>
+        <p>Get a daily roundup in your inbox.</p>
+        <form id="subscribe-form">
+          <input id="subscribe-email" type="email" placeholder="Email address" required>
+          <button class="btn" type="submit">Subscribe</button>
+        </form>
+      </div>
+
+      <div class="card sidebar-card">
+        <h3>Advertisement</h3>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8891230579666870"
+             data-ad-slot="6919295084"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+      <div class="card sidebar-card small">
+        <h3>About</h3>
+        <p>Daily News India — short news, credible reporting, and quick summaries.</p>
+        <a href="about.html" class="small-link">Learn more →</a>
+      </div>
+    </aside>
+  </main>
 
   <!-- Footer -->
-  <footer>
-    <p>© 2025 Daily News India | All Rights Reserved</p>
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="foot-left">© 2025 Daily News India</div>
+      <div class="foot-right">
+        <a href="privacy.html">Privacy</a> • <a href="contact.html">Contact</a>
+      </div>
+    </div>
   </footer>
 
   <script src="script.js"></script>
