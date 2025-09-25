@@ -1,56 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily News India</title>
-  <link rel="stylesheet" href="style.css">
-
-  <!-- Google AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8891230579666870"
-       crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily News India</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container">
-      <h1>📰 Daily News India</h1>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="privacy.html">Privacy</a>
-      </nav>
-    </div>
-  </header>
+    <!-- Header -->
+    <header>
+        <div class="logo">Daily News India</div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active" data-category="top">Top</a></li>
+                <li><a href="#" data-category="politics">Politics</a></li>
+                <li><a href="#" data-category="business">Business</a></li>
+                <li><a href="#" data-category="technology">Tech</a></li>
+                <li><a href="#" data-category="sports">Sports</a></li>
+                <li><a href="#" data-category="entertainment">Entertainment</a></li>
+                <li><a href="#" data-category="world">World</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h2>Stay Updated with Latest News</h2>
-    <p>Get the fastest updates from India and across the world.</p>
-  </section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="breaking-news">
+            <span>Breaking: </span>
+            <marquee id="breaking-marquee">Loading top news...</marquee>
+        </div>
+        <div class="hero-content">
+            <h1>Stay Updated with Daily News India</h1>
+            <p>Get the latest news from India and around the world at one place.</p>
+        </div>
+    </section>
 
-  <!-- Google AdSense Ad -->
-  <div class="ads-container">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-8891230579666870"
-         data-ad-slot="6919295084"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
+    <!-- News Feed -->
+    <section class="news-feed"></section>
 
-  <!-- News Section -->
-  <main class="news-container" id="news"></main>
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <h2>Stay Updated</h2>
+        <p>Subscribe to get the latest news delivered to your inbox.</p>
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+    </section>
 
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Daily News India | All Rights Reserved</p>
-  </footer>
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Daily News India | All rights reserved.</p>
+        <div class="social">
+            <a href="#">Facebook</a> |
+            <a href="#">Instagram</a> |
+            <a href="#">YouTube</a>
+        </div>
+    </footer>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
