@@ -1,569 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daily News India</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Running News</title>
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8891230579666870"
+     crossorigin="anonymous"></script>
 
   <style>
     body {
+      margin: 0;
       font-family: 'Poppins', sans-serif;
-      background-color: #f7fafc;
-      color: #2d3748;
+      background: #f4f7fb;
+      color: #222;
     }
-
-    /* Custom styles for the marquee effect */
-    .breaking-marquee {
-      white-space: nowrap;
-      overflow: hidden;
-      animation: marquee 20s linear infinite;
+    header {
+      background: #1a73e8;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
     }
-
-    @keyframes marquee {
-      0% {
-        transform: translateX(100%);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
+    #news-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      padding: 20px;
     }
-
-    /* Additional custom styles */
-    .line-clamp-2 {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .line-clamp-3 {
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-    
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.75);
+    .news-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
+      flex-direction: column;
     }
-
-    .modal-content {
-      background-color: #fff;
-      padding: 2rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 90%;
-      max-height: 90%;
-      overflow-y: auto;
-      position: relative;
+    .news-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
-
-    .close-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #9ca3af;
+    .news-card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #111;
+    }
+    .news-card p {
+      font-size: 14px;
+      color: #444;
+      flex-grow: 1;
+    }
+    .news-card a {
+      margin-top: 10px;
+      display: inline-block;
+      color: #1a73e8;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    footer {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 20px;
     }
   </style>
-
-  <!-- Google AdSense (publisher script) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8891230579666870"
-    crossorigin="anonymous"></script>
 </head>
-<body class="antialiased">
-  <!-- Sticky Header -->
-  <header class="sticky top-0 z-50 bg-white shadow-md">
-    <div class="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between">
-      <div class="flex items-center justify-between w-full md:w-auto">
-        <a href="index.html" class="text-2xl font-bold text-gray-800 tracking-tight">Daily <span class="text-blue-600">News</span> India</a>
-        <button id="mobile-menu-btn" aria-label="Toggle menu" class="md:hidden p-2 text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-        </button>
-      </div>
-
-      <nav class="main-nav w-full md:w-auto mt-4 md:mt-0 hidden md:block" id="nav-list">
-        <ul class="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6">
-          <li><a href="#" data-cat="general" class="nav-link text-gray-600 hover:text-blue-600 transition-colors duration-200 font-semibold active-link">Top</a></li>
-          <li><a href="#" data-cat="politics" class="nav-link text-gray-600 hover:text-blue-600 transition-colors duration-200 font-semibold">Politics</a></li>
-          <li><a href="#" data-cat="business" class="nav-link text-gray-600 hover:text-blue-600 transition-colors duration-200 font-semibold">Business</a></li>
-          <li><a href="#" data-cat="technology" class="nav-link text-gray-600 hover:text-blue-600 transition-colors duration-200 font-semibold">Tech</a></li>
-          <li><a href="#" data-cat="sports" class="nav-link text-gray-600 hover:text-blue-600 transition-colors duration-200 font-semibold">Sports</a></li>
-          <li><a href="#" data-cat="entertainment" class="nav-link text-gray-600 hover:text-blue-600 transition-colors duration-200 font-semibold">Entertainment</a></li>
-          <li><a href="javascript:void(0)" class="nav-link text-gray-600 hover:text-blue-600 transition-colors duration-200 font-semibold">About</a></li>
-        </ul>
-      </nav>
-    </div>
+<body>
+  <header>
+    📰 Daily Running News
   </header>
 
-  <!-- Hero Section -->
-  <section class="bg-gray-100 py-16">
-    <div class="container mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-8">
-      <div class="lg:w-1/2">
-        <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">Fast. Reliable. India-First News.</h1>
-        <p class="mt-4 text-lg text-gray-600">Breaking stories, politics, business, tech, sports and more — updated every hour.</p>
-      </div>
-      <div class="lg:w-1/2 w-full">
-        <!-- marquee-style breaking headlines (filled by JS) -->
-        <div class="bg-blue-600 text-white rounded-xl p-4 shadow-lg">
-          <strong class="uppercase text-sm font-semibold tracking-wider">Breaking:</strong>
-          <div id="breaking" class="mt-2 text-md font-medium breaking-marquee">Loading headlines…</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main area: content + sidebar -->
-  <main class="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <!-- LEFT: news list -->
-    <section class="lg:col-span-2">
-      <div id="loading-spinner" class="text-center py-12 hidden">
-        <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-      <div id="news-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- News cards injected here by JavaScript -->
-      </div>
-      
-      <div class="flex justify-center mt-8">
-        <button id="load-more" class="btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200">Load more</button>
-      </div>
-    </section>
-
-    <!-- RIGHT: sidebar -->
-    <aside class="lg:col-span-1 space-y-6">
-      <div class="bg-white rounded-xl shadow-md p-6">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">Popular Topics</h3>
-        <ul class="flex flex-wrap gap-2">
-          <li><button data-cat="politics" class="chip bg-gray-200 hover:bg-blue-500 hover:text-white text-gray-700 font-medium py-2 px-4 rounded-full transition-colors duration-200">Politics</button></li>
-          <li><button data-cat="business" class="chip bg-gray-200 hover:bg-blue-500 hover:text-white text-gray-700 font-medium py-2 px-4 rounded-full transition-colors duration-200">Business</button></li>
-          <li><button data-cat="technology" class="chip bg-gray-200 hover:bg-blue-500 hover:text-white text-gray-700 font-medium py-2 px-4 rounded-full transition-colors duration-200">Tech</button></li>
-          <li><button data-cat="sports" class="chip bg-gray-200 hover:bg-blue-500 hover:text-white text-gray-700 font-medium py-2 px-4 rounded-full transition-colors duration-200">Sports</button></li>
-          <li><button data-cat="entertainment" class="chip bg-gray-200 hover:bg-blue-500 hover:text-white text-gray-700 font-medium py-2 px-4 rounded-full transition-colors duration-200">Entertainment</button></li>
-        </ul>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md p-6">
-        <h3 class="text-xl font-bold text-gray-800 mb-4">Subscribe</h3>
-        <p class="text-gray-600 mb-4">Get a daily roundup in your inbox.</p>
-        <form id="subscribe-form" class="flex flex-col gap-3">
-          <input id="subscribe-email" type="email" placeholder="Email address" required class="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <button class="btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200" type="submit">Subscribe</button>
-        </form>
-      </div>
-
-      <div class="bg-white rounded-xl shadow-md p-6 text-sm text-gray-600">
-        <h3 class="text-xl font-bold text-gray-800 mb-2">About</h3>
-        <p>Daily News India — short news, credible reporting, and quick summaries.</p>
-        <a href="javascript:void(0)" class="text-blue-600 hover:underline mt-2 inline-block">Learn more →</a>
-      </div>
-    </aside>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-gray-400 py-6">
-    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between text-center md:text-left">
-      <div class="mb-2 md:mb-0">© 2025 Daily News India</div>
-      <div class="space-x-4">
-        <a href="javascript:void(0)" class="hover:text-white transition-colors duration-200">Privacy</a>
-        <span>•</span>
-        <a href="javascript:void(0)" class="hover:text-white transition-colors duration-200">Contact</a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Summary Modal -->
-  <div id="summary-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <button class="close-btn" id="close-modal-btn">&times;</button>
-      <h2 id="modal-title" class="text-2xl font-bold text-gray-800 mb-4">Article Summary</h2>
-      <div id="modal-summary" class="text-gray-700 mb-4"></div>
-      <div class="flex space-x-2">
-        <button id="listen-btn" class="btn bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">Listen ✨</button>
-        <button id="stop-btn" class="btn bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 hidden">Stop</button>
-      </div>
-    </div>
+  <!-- Google Ads -->
+  <div style="text-align:center; margin:20px 0;">
+    <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-8891230579666870"
+        data-ad-slot="6919295084"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
   </div>
 
+  <main id="news-container">
+    <p>Loading news...</p>
+  </main>
+
+  <footer>
+    © 2025 Daily Running News | All Rights Reserved
+  </footer>
+
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const newsList = document.getElementById('news-list');
-      const breakingMarquee = document.getElementById('breaking');
-      const loadMoreBtn = document.getElementById('load-more');
-      const navLinks = document.querySelectorAll('.nav-link');
-      const chipButtons = document.querySelectorAll('.chip');
-      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-      const navList = document.getElementById('nav-list');
-      const loadingSpinner = document.getElementById('loading-spinner');
-      const summaryModal = document.getElementById('summary-modal');
-      const closeModalBtn = document.getElementById('close-modal-btn');
-      const modalSummary = document.getElementById('modal-summary');
-      const listenBtn = document.getElementById('listen-btn');
-      const stopBtn = document.getElementById('stop-btn');
+    async function fetchNews() {
+      const apiKey = "pub_8d1d9628f69649a3b97b2f2684d4caff";
+      const url = `https://newsdata.io/api/1/news?apikey=${apiKey}&country=in&language=en`;
 
-      // Switched to GNews API for better reliability.
-      const API_KEY = '5f4b509355df7e87515b81a17951a804';
-      const API_URL = 'https://gnews.io/api/v4/top-headlines';
-      
-      let currentPage = 1;
-      let currentCategory = 'general';
-      let audio = null;
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
 
-      // Gemini API settings
-      const GEMINI_API_KEY = ""; // Canvas will automatically provide this
-      const GEMINI_API_TEXT_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
-      const GEMINI_API_TTS_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`;
+        let container = document.getElementById("news-container");
+        container.innerHTML = "";
 
-      // Helper function to convert base64 to ArrayBuffer
-      const base64ToArrayBuffer = (base64) => {
-          const binaryString = atob(base64);
-          const len = binaryString.length;
-          const bytes = new Uint8Array(len);
-          for (let i = 0; i < len; i++) {
-              bytes[i] = binaryString.charCodeAt(i);
-          }
-          return bytes.buffer;
-      };
-
-      // Helper function to convert raw PCM audio to WAV blob
-      const pcmToWav = (pcmData, sampleRate) => {
-          const numChannels = 1;
-          const bitsPerSample = 16;
-          const byteRate = sampleRate * numChannels * (bitsPerSample / 8);
-          const blockAlign = numChannels * (bitsPerSample / 8);
-          const wavHeader = new ArrayBuffer(44);
-          const view = new DataView(wavHeader);
-
-          // RIFF identifier
-          view.setUint32(0, 0x52494646, false);
-          // file length
-          view.setUint32(4, 36 + pcmData.byteLength, true);
-          // RIFF type
-          view.setUint32(8, 0x57415645, false);
-          // format chunk identifier
-          view.setUint32(12, 0x666d7420, false);
-          // format chunk length
-          view.setUint32(16, 16, true);
-          // sample format (1 for PCM)
-          view.setUint16(20, 1, true);
-          // number of channels
-          view.setUint16(22, numChannels, true);
-          // sample rate
-          view.setUint32(24, sampleRate, true);
-          // byte rate
-          view.setUint32(28, byteRate, true);
-          // block align
-          view.setUint16(32, blockAlign, true);
-          // bits per sample
-          view.setUint16(34, bitsPerSample, true);
-          // data chunk identifier
-          view.setUint32(36, 0x64617461, false);
-          // data chunk length
-          view.setUint32(40, pcmData.byteLength, true);
-
-          return new Blob([wavHeader, pcmData], { type: 'audio/wav' });
-      };
-
-      // Toggles the mobile navigation menu
-      mobileMenuBtn.addEventListener('click', () => {
-        navList.classList.toggle('hidden');
-      });
-
-      // Fetches news from the API
-      const fetchNews = async (category, page = 1) => {
-        const url = `${API_URL}?country=in&category=${category}&token=${API_KEY}&lang=en`;
-        
-        // Show loading spinner
-        loadingSpinner.classList.remove('hidden');
-        if (page === 1) {
-          newsList.innerHTML = '';
-        }
-        
-        try {
-          const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error(`Failed to fetch news. Status: ${response.status}. Please try again later.`);
-          }
-          const data = await response.json();
-          loadingSpinner.classList.add('hidden');
-          return data.articles || [];
-        } catch (error) {
-          console.error("Error fetching news:", error);
-          loadingSpinner.classList.add('hidden');
-          newsList.innerHTML = `<p class="text-center text-red-500 col-span-2">${error.message}</p>`;
-          return [];
-        }
-      };
-      
-      // Renders the news articles as cards
-      const renderNews = (articles) => {
-        if (articles.length === 0 && currentPage === 1) {
-          newsList.innerHTML = `<p class="text-center col-span-2">No news found for this category.</p>`;
-          loadMoreBtn.classList.add('hidden');
+        if (!data.results || data.results.length === 0) {
+          container.innerHTML = "<p>No news found.</p>";
           return;
         }
 
-        articles.forEach(article => {
-          if (!article.title || !article.description || !article.url) {
-            return; // Skip invalid articles
-          }
-          const card = document.createElement('article');
-          card.className = 'bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105';
-          const imageUrl = article.image || 'https://placehold.co/600x400/3B82F6/ffffff?text=Daily+News';
+        data.results.forEach(article => {
+          let card = document.createElement("div");
+          card.classList.add("news-card");
 
           card.innerHTML = `
-            <a href="${article.url}" target="_blank" rel="noopener noreferrer">
-              <img src="${imageUrl}" alt="${article.title}" class="w-full h-48 object-cover">
-              <div class="p-6">
-                <h2 class="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">${article.title}</h2>
-                <p class="text-gray-600 text-sm line-clamp-3">${article.description}</p>
-                <div class="mt-4 flex justify-between items-center text-xs text-gray-400">
-                  <span class="font-bold">${article.source.name}</span>
-                  <span>${new Date(article.publishedAt).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </a>
-            <div class="p-6 pt-0 flex gap-2">
-              <button class="summarize-btn btn bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 text-sm" data-description="${article.description}">
-                Summarize ✨
-              </button>
-              <button class="listen-btn btn bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 text-sm hidden">
-                Listen ✨
-              </button>
-            </div>
+            ${article.image_url ? `<img src="${article.image_url}" alt="News Image">` : ""}
+            <h3>${article.title}</h3>
+            <p>${article.description || ""}</p>
+            <a href="${article.link}" target="_blank">Read More</a>
           `;
-          newsList.appendChild(card);
+          container.appendChild(card);
         });
-        loadMoreBtn.classList.remove('hidden');
-      };
+      } catch (err) {
+        document.getElementById("news-container").innerHTML = "<p>Failed to load news.</p>";
+        console.error("Error fetching news:", err);
+      }
+    }
 
-      // Calls Gemini API to summarize a news article
-      const generateSummary = async (description) => {
-          if (!description) {
-            return 'No description available to summarize.';
-          }
-          const prompt = `Provide a concise, single-paragraph summary of the following text:\n\n${description}`;
-          const payload = {
-              contents: [{ parts: [{ text: prompt }] }],
-              systemInstruction: {
-                parts: [{ text: "You are a helpful assistant that summarizes news articles." }]
-              }
-          };
-          try {
-              const response = await fetch(GEMINI_API_TEXT_URL, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(payload)
-              });
-              const result = await response.json();
-              if (result.candidates && result.candidates.length > 0) {
-                  return result.candidates[0].content.parts[0].text;
-              } else {
-                  return "Failed to generate summary. Please try again.";
-              }
-          } catch (error) {
-              console.error("Gemini API error:", error);
-              return "An error occurred while generating the summary.";
-          }
-      };
-
-      // Calls Gemini TTS API to generate and play audio
-      const playAudioFromText = async (text) => {
-          if (!text) {
-            console.error("No text to play.");
-            return;
-          }
-
-          const payload = {
-              contents: [{
-                  parts: [{ text: text }]
-              }],
-              generationConfig: {
-                  responseModalities: ["AUDIO"],
-                  speechConfig: {
-                      voiceConfig: {
-                          prebuiltVoiceConfig: { voiceName: "Zephyr" }
-                      }
-                  }
-              }
-          };
-
-          try {
-              const response = await fetch(GEMINI_API_TTS_URL, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(payload)
-              });
-              const result = await response.json();
-              const part = result?.candidates?.[0]?.content?.parts?.[0];
-              const audioData = part?.inlineData?.data;
-              const mimeType = part?.inlineData?.mimeType;
-
-              if (audioData && mimeType && mimeType.startsWith("audio/")) {
-                  // Get sample rate from mimeType
-                  const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
-                  const pcmData = base64ToArrayBuffer(audioData);
-                  const pcm16 = new Int16Array(pcmData);
-                  const wavBlob = pcmToWav(pcm16, sampleRate);
-                  const audioUrl = URL.createObjectURL(wavBlob);
-                  
-                  if (audio) {
-                    audio.pause();
-                    audio = null;
-                  }
-
-                  audio = new Audio(audioUrl);
-                  audio.play();
-
-                  audio.addEventListener('play', () => {
-                    listenBtn.classList.add('hidden');
-                    stopBtn.classList.remove('hidden');
-                  });
-                  audio.addEventListener('ended', () => {
-                    listenBtn.classList.remove('hidden');
-                    stopBtn.classList.add('hidden');
-                  });
-                  audio.addEventListener('pause', () => {
-                    listenBtn.classList.remove('hidden');
-                    stopBtn.classList.add('hidden');
-                  });
-              } else {
-                  console.error("Invalid audio data received.");
-                  modalSummary.textContent = "Error generating audio. Please try again.";
-              }
-          } catch (error) {
-              console.error("Gemini TTS API error:", error);
-              modalSummary.textContent = "An error occurred while generating audio.";
-          }
-      };
-      
-      // Updates the breaking news marquee
-      const updateBreakingNews = (articles) => {
-        const headlines = articles.map(a => a.title).join(' | ');
-        breakingMarquee.textContent = headlines;
-      };
-      
-      // Handles category changes
-      const handleCategoryChange = async (category) => {
-        currentCategory = category;
-        currentPage = 1;
-        
-        // Update active class on nav links
-        navLinks.forEach(link => {
-          link.classList.remove('active-link', 'text-blue-600', 'font-bold');
-          if (link.getAttribute('data-cat') === category) {
-            link.classList.add('active-link', 'text-blue-600', 'font-bold');
-          }
-        });
-        
-        const articles = await fetchNews(currentCategory, currentPage);
-        renderNews(articles);
-        updateBreakingNews(articles);
-      };
-      
-      // Load more button functionality
-      loadMoreBtn.addEventListener('click', async () => {
-        currentPage++;
-        const articles = await fetchNews(currentCategory, currentPage);
-        if (articles.length > 0) {
-          renderNews(articles);
-        } else {
-          loadMoreBtn.textContent = 'No more articles';
-          loadMoreBtn.disabled = true;
-          setTimeout(() => {
-            loadMoreBtn.textContent = 'Load more';
-            loadMoreBtn.disabled = false;
-          }, 3000);
-        }
-      });
-      
-      // Event listeners for navigation and sidebar chips
-      navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const category = e.target.getAttribute('data-cat') || 'general';
-          handleCategoryChange(category);
-        });
-      });
-      
-      chipButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          const category = e.target.getAttribute('data-cat');
-          handleCategoryChange(category);
-        });
-      });
-
-      // Event delegation for dynamically added summarize buttons
-      newsList.addEventListener('click', async (event) => {
-        if (event.target.classList.contains('summarize-btn')) {
-          const button = event.target;
-          const originalText = button.textContent;
-          button.textContent = 'Summarizing...';
-          button.disabled = true;
-
-          const description = button.dataset.description;
-          const summary = await generateSummary(description);
-          
-          // Store the summary for the audio feature
-          button.dataset.summary = summary;
-          
-          modalSummary.textContent = summary;
-          summaryModal.classList.remove('hidden');
-
-          button.textContent = originalText;
-          button.disabled = false;
-          
-          // Show the listen button now that the summary is available
-          const listenButton = button.nextElementSibling;
-          if(listenButton) listenButton.classList.remove('hidden');
-        }
-      });
-
-      // Event listener for the listen button inside the modal
-      listenBtn.addEventListener('click', () => {
-        const summary = modalSummary.textContent;
-        playAudioFromText(summary);
-      });
-
-      // Event listener for the stop button
-      stopBtn.addEventListener('click', () => {
-          if (audio) {
-              audio.pause();
-          }
-      });
-      
-      // Close modal functionality
-      closeModalBtn.addEventListener('click', () => {
-        summaryModal.classList.add('hidden');
-        modalSummary.textContent = '';
-        listenBtn.classList.remove('hidden');
-        stopBtn.classList.add('hidden');
-        if (audio) {
-            audio.pause();
-            audio = null;
-        }
-      });
-
-      // Initial page load
-      handleCategoryChange('general');
-    });
+    fetchNews();
   </script>
 </body>
 </html>
